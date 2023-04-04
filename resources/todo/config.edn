@@ -34,11 +34,16 @@
    :sql     ["DELETE FROM entries WHERE id = ?" id]}
 
   :duct.migrator/ragtime
-  {:migrations [#ig/ref :todo.migration/create-entries]}
+  {:migrations [#ig/ref :todo.migration/create-entries
+                #ig/ref :todo.migration/create-users]}
 
   [:duct.migrator.ragtime/sql :todo.migration/create-entries]
   {:up ["CREATE TABLE entries (id INTEGER PRIMARY KEY, description TEXT)"]
-   :down ["DROP TABLE entries"]}}
+   :down ["DROP TABLE entries"]}
+
+  [:duct.migrator.ragtime/sql :todo.migration/create-users]
+  {:up ["CREATE TABLE users (id INTEGER PRIMARY KEY, email TEXT UNIQUE, password TEXT)"]
+   :down ["DROP TABLE users"]}}
 
  :duct.profile/dev #duct/include "dev"
  :duct.profile/local #duct/include "local"
