@@ -21,7 +21,8 @@
 
   [:duct.handler.sql/insert :todo.handler.entries/create]
   {:request {[_ description] :ataraxy/result}
-   :sql     ["INSERT INTO entries (description) VALUES (?)" description]}
+   :sql     ["INSERT INTO entries (description) VALUES (?)" description]
+   :location "/entries/{last_insert_rowid}"}
 
   [:duct.handler.sql/query-one :todo.handler.entries/find]
   {:request {[_ id] :ataraxy/result}
