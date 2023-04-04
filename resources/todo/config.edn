@@ -7,7 +7,10 @@
     [:get "/entries"] [:todo.handler.entries/list]
 
     [:post "/entries" {{:keys [description]} :body-params}]
-    [:todo.handler.entries/create description]}}
+    [:todo.handler.entries/create description]
+
+    [:get    "/entries/" id] [:todo.handler.entries/find    ^int id]
+    [:delete "/entries/" id] [:todo.handler.entries/destroy ^int id]}}
 
   [:duct.handler.static/ok :todo.handler/index]
   {:body {:entries "/entries"}}
@@ -19,6 +22,15 @@
   [:duct.handler.sql/insert :todo.handler.entries/create]
   {:request {[_ description] :ataraxy/result}
    :sql     ["INSERT INTO entries (description) VALUES (?)" description]}
+
+  [:duct.handler.sql/query-one :todo.handler.entries/find]
+  {:request {[_ id] :ataraxy/result}
+   :sql     ["SELECT * FROM entries WHERE id = ?" id]
+   :hrefs   {:href "/entries/{id}"}}
+
+  [:duct.handler.sql/execute :todo.handler.entries/destroy]
+  {:request {[_ id] :ataraxy/result}
+   :sql     ["DELETE FROM entries WHERE id = ?" id]}
 
   :duct.migrator/ragtime
   {:migrations [#ig/ref :todo.migration/create-entries]}
