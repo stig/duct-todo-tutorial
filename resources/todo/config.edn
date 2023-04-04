@@ -10,7 +10,10 @@
     [:todo.handler.entries/create description]
 
     [:get    "/entries/" id] [:todo.handler.entries/find    ^int id]
-    [:delete "/entries/" id] [:todo.handler.entries/destroy ^int id]}}
+    [:delete "/entries/" id] [:todo.handler.entries/destroy ^int id]
+
+    [:post "/users" {{:keys [email password]} :body-params}]
+    [:todo.handler.users/create email password]}}
 
   [:duct.handler.static/ok :todo.handler/index]
   {:body {:entries "/entries"}}
@@ -32,6 +35,9 @@
   [:duct.handler.sql/execute :todo.handler.entries/destroy]
   {:request {[_ id] :ataraxy/result}
    :sql     ["DELETE FROM entries WHERE id = ?" id]}
+
+  :todo.handler.users/create
+  {:db #ig/ref :duct.database/sql}
 
   :duct.migrator/ragtime
   {:migrations [#ig/ref :todo.migration/create-entries
