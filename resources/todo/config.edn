@@ -2,7 +2,10 @@
  {:duct.core/project-ns todo
 
   :duct.router/ataraxy
-  {:routes {}}}
+  {:routes {[:get "/"] [:todo.handler/index]}}
+
+  [:duct.handler.static/ok :todo.handler/index]
+  {:body {:entries "/entries"}}}
 
  :duct.profile/dev #duct/include "dev"
  :duct.profile/local #duct/include "local"
