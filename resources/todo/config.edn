@@ -13,7 +13,8 @@
   {:body {:entries "/entries"}}
 
   [:duct.handler.sql/query :todo.handler.entries/list]
-  {:sql ["SELECT * FROM entries"]}
+  {:sql ["SELECT * FROM entries"]
+   :hrefs {:href "/entries/{id}"}}
 
   [:duct.handler.sql/insert :todo.handler.entries/create]
   {:request {[_ description] :ataraxy/result}
