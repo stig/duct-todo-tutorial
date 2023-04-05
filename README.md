@@ -1,6 +1,6 @@
 # todo
 
-FIXME: description
+This project implements the steps in the [Duct Tutorial](https://github.com/duct-framework/docs/blob/master/GUIDE.rst#guide-to-the-duct-framework).
 
 ## Developing
 
